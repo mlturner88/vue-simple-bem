@@ -29,13 +29,15 @@ export function determineModifiers(
 
 function generateModifierName(block: string, elem: string | undefined, name: string): string {
 	const mod = kebabCase(name.trim());
-	return !elem ? `${block}--${mod}` : `${elem}--${mod}`;
+	return !elem ? `${block}--${mod}` : `${block}__${elem}--${mod}`;
 }
 
 export function addCssClass(el: HTMLElement, className: string) {
-	if (el.classList && !el.classList.contains(className)) {
-		el.classList.add(className);
-	} else if (!el.classList) {
+	if (el.classList) {
+		if (!el.classList.contains(className)) {
+			el.classList.add(className);
+		}
+	} else {
 		// in some cases, IE11 does not support classList (on <svg> elements, for example)
 		// so add a contengincy case here
 		const classString = el.getAttribute('class');
