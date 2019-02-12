@@ -2,6 +2,25 @@
 # yarn lockfile v1
 
 
+"@types/lodash.kebabcase@^4.1.4":
+  version "4.1.4"
+  resolved "https://registry.yarnpkg.com/@types/lodash.kebabcase/-/lodash.kebabcase-4.1.4.tgz#9b9b1abb6d900df311ac82e5bf5d6441435e1ff4"
+  integrity sha512-H/j/+ubS1SRbCCYXghPnkMRuGFk6gGT3KICjnTtyukveMoqsSBLVuJL4Aw+B+jy7ZDc0htVE4l1YEo03vYEykA==
+  dependencies:
+    "@types/lodash" "*"
+
+"@types/lodash.words@^4.2.4":
+  version "4.2.4"
+  resolved "https://registry.yarnpkg.com/@types/lodash.words/-/lodash.words-4.2.4.tgz#e09f9800dd1e4b667bba62026b445a1294b21f1f"
+  integrity sha512-vTgCKQSNY6Yda+h71G1gzl+3rabWDuIZxc6R/tTaef9/vjVQ/3ASbkBPCeK7wO0A/63IAP1t/T4sJqQ8k3kIvg==
+  dependencies:
+    "@types/lodash" "*"
+
+"@types/lodash@*":
+  version "4.14.120"
+  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.120.tgz#cf265d06f6c7a710db087ed07523ab8c1a24047b"
+  integrity sha512-jQ21kQ120mo+IrDs1nFNVm/AsdFxIx2+vZ347DbogHJPd/JzKNMOqU6HCYin1W6v8l5R9XSO2/e9cxmn7HAnVw==
+
 "@webassemblyjs/ast@1.7.11":
   version "1.7.11"
   resolved "https://registry.yarnpkg.com/@webassemblyjs/ast/-/ast-1.7.11.tgz#b988582cafbb2b095e8b556526f30c90d057cace"
@@ -1496,6 +1515,11 @@ lodash.kebabcase@^4.1.1:
   resolved "https://registry.yarnpkg.com/lodash.kebabcase/-/lodash.kebabcase-4.1.1.tgz#8489b1cb0d29ff88195cceca448ff6d6cc295c36"
   integrity sha1-hImxyw0p/4gZXM7KRI/21swpXDY=
 
+lodash.words@^4.2.0:
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/lodash.words/-/lodash.words-4.2.0.tgz#5ecfeaf8ecf8acaa8e0c8386295f1993c9cf4036"
+  integrity sha1-Xs/q+Oz4rKqODIOGKV8Zk8nPQDY=
+
 lru-cache@^5.1.1:
   version "5.1.1"
   resolved "https://registry.yarnpkg.com/lru-cache/-/lru-cache-5.1.1.tgz#1da27e6710271947695daf6848e847f01d84b920"
@@ -2717,6 +2741,11 @@ vm-browserify@0.0.4:
   integrity sha1-XX6kW7755Kb/ZflUOOCofDV9WnM=
   dependencies:
     indexof "0.0.1"
+
+vue@^2.6.6:
+  version "2.6.6"
+  resolved "https://registry.yarnpkg.com/vue/-/vue-2.6.6.tgz#dde41e483c11c46a7bf523909f4f2f816ab60d25"
+  integrity sha512-Y2DdOZD8sxApS+iUlwv1v8U1qN41kq6Kw45lM6nVZKhygeWA49q7VCCXkjXqeDBXgurrKWkYQ9cJeEJwAq0b9Q==
 
 watchpack@^1.5.0:
   version "1.6.0"

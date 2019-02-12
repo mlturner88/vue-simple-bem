@@ -1,24 +1,28 @@
 {
-  "name": "vue-simple-bem",
-  "version": "1.0.0",
-  "description": "A simple Vue.js directive to map BEM CSS class names.",
-  "main": "src/vue-simple-bem.js",
-  "repository": "https://github.com/mlturner88/vue-simple-bem.git",
-  "author": "Matthew Turner <mlturner88@outlook.com>",
-  "license": "MIT",
-  "private": false,
-  "dependencies": {
-    "lodash.kebabcase": "^4.1.1"
-  },
-  "devDependencies": {
-    "prettier": "^1.16.4",
-    "ts-loader": "^5.3.3",
-    "typescript": "^3.3.3",
-    "webpack": "^4.29.3",
-    "webpack-cli": "^3.2.3"
-  },
-  "scripts": {
-    "build": "webpack --mode production",
-    "build:dev": "webpack --mode development"
-  }
+	"name": "vue-simple-bem",
+	"version": "1.0.0",
+	"description": "A simple Vue.js directive to map BEM CSS class names.",
+	"main": "src/vue-simple-bem.js",
+	"repository": "https://github.com/mlturner88/vue-simple-bem.git",
+	"author": "Matthew Turner <mlturner88@outlook.com>",
+	"license": "MIT",
+	"private": false,
+	"dependencies": {
+		"@types/lodash.kebabcase": "^4.1.4",
+		"@types/lodash.words": "^4.2.4",
+		"lodash.kebabcase": "^4.1.1",
+		"lodash.words": "^4.2.0",
+		"vue": "^2.6.6"
+	},
+	"devDependencies": {
+		"prettier": "^1.16.4",
+		"ts-loader": "^5.3.3",
+		"typescript": "^3.3.3",
+		"webpack": "^4.29.3",
+		"webpack-cli": "^3.2.3"
+	},
+	"scripts": {
+		"build": "webpack --mode production",
+		"build:dev": "webpack --mode development"
+	}
 }
