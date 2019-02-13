@@ -1,6 +1,6 @@
 {
   "name": "vue-simple-bem",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A simple Vue.js directive to map BEM CSS class names.",
   "main": "dist/vue-simple-bem.js",
   "repository": "https://github.com/mlturner88/vue-simple-bem.git",
