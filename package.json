@@ -33,6 +33,7 @@
     "build:dev": "npm run clean && webpack --mode development",
     "test": "jest",
     "clean": "rimraf dist",
-    "lint": "tslint src/**/*.ts"
+    "lint": "tslint src/**/*.ts",
+    "prepublish": "npm run build"
   }
 }
