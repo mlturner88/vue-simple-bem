@@ -38,7 +38,7 @@ function generateModifierName(
   return !elem ? `${block}--${mod}` : `${elem}--${mod}`;
 }
 
-export function addCssClass(el: HTMLElement, className: string) {
+function addCssClass(el: HTMLElement, className: string) {
   const classString = getElementClassString(el);
 
   if (classString && !doesStringContainClass(classString, className)) {
