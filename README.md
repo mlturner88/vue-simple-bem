@@ -10,7 +10,7 @@ Install using your package manager of choice.
 
 `npm i --save vue-simple-bem`
 
-You can install the directive as a global dependency. The configuration options are optional.
+You can install the directive as a global dependency. The [configuration options](#plugin-configuration) are optional.
 
 ```javascript
 import Vue from 'vue';
@@ -50,13 +50,14 @@ export default {
 </script>
 
 <template>
-  <!-- will resolve to component's name: class="my-component" -->
   <div v-bem>
-    <!-- will resolve as class="my-component__sample-text" -->
     <div v-bem:sampleText>Example Text</div>
   </div>
 </template>
 ```
+
+The root `div` will become `<div class="my-component">`.
+The child element `div` will become `<div class="my-component__sample-text">`.
 
 The same example but with modifiers.
 
@@ -82,13 +83,14 @@ export default {
 </script>
 
 <template>
-  <!-- will resolve to component's name: class="my-component my-component--bold my-component--emphasize-text" -->
   <div v-bem="{ bold, emphasizeText: italics }">
-    <!-- will resolve as class="my-component__sample-text my-component__sample-text--bold" -->
     <div v-bem:sampleText="{ bold, center }">Example Text</div>
   </div>
 </template>
 ```
+
+The root `div` will become `<div class="my-component my-component--bold my-component--emphasize-text">`.
+The child element `div` will become `<div class="my-component__sample-text my-component__sample-text--bold">`.
 
 If a modifier is always on then you can use this syntax. You can use both together as well.
 
@@ -106,13 +108,14 @@ export default {
 </script>
 
 <template>
-  <!-- will resolve to component's name: class="my-component my-component--float-left" -->
   <div v-bem.floatLeft>
-    <!-- will resolve as class="my-component__sample-text my-component__sample-text--bold my-component__sample-text--italics" -->
     <div v-bem:sampleText.italics="{ bold }">Example Text</div>
   </div>
 </template>
 ```
+
+The root `div` will become `<div class="my-component my-component--float-left">`.
+The child element `div` will become `<div class="my-component__sample-text my-component__sample-text--bold my-component__sample-text--italics">`.
 
 ## API
 
@@ -267,7 +270,7 @@ export default {
 
 ### Name
 
-> default: `bem`
+> default: `'bem'`
 
 This changes the name the directive is registered as.
 This will change the directive in your template.
