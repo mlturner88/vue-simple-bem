@@ -1,12 +1,12 @@
 import { DirectiveOptions } from 'vue/types';
 import {
-  generateBemClasses,
   addCssClasses,
   determineModifiers,
+  generateBemClasses,
   removeCssClasses
 } from './helpers';
 
-export default <DirectiveOptions>{
+export default {
   inserted(el, binding, node) {
     const [block, elem, mods] = generateBemClasses(binding, node);
     addCssClasses(el, [!elem ? block : elem, ...mods]);
@@ -30,4 +30,4 @@ export default <DirectiveOptions>{
     removeCssClasses(el, removedMods);
     addCssClasses(el, [!elem ? block : elem, ...mods]);
   }
-};
+} as DirectiveOptions;

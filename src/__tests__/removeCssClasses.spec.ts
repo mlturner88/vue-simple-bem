@@ -4,13 +4,15 @@ import { removeCssClasses } from '../helpers';
 let el: HTMLElement | null = null;
 
 beforeEach(() => {
-  const { window } = new JSDOM('<div class="some-class remove-me and-me">Some Text</div>');
+  const { window } = new JSDOM(
+    '<div class="some-class remove-me and-me">Some Text</div>'
+  );
   el = window.document.querySelector('div');
 });
 
 /*********************************************************************
-*  All of these tests check 'el' for truthy to make typescript happy *
-**********************************************************************/
+ *  All of these tests check 'el' for truthy to make typescript happy *
+ **********************************************************************/
 
 it('should remove classes if present', () => {
   if (el) {

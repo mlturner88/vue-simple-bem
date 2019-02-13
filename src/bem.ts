@@ -2,17 +2,17 @@ import { PluginObject } from 'vue/types';
 import bem from './directive';
 export { default as bem } from './directive';
 
-export interface VueSimpleBemOptions {
-	name?: string;
+export interface IVueSimpleBemOptions {
+  name?: string;
 }
 
 const defaultOptions = {
-	name: 'bem'
+  name: 'bem'
 };
 
-export default <PluginObject<VueSimpleBemOptions>>{
-	install(vue, options) {
-		const { name } = { ...defaultOptions, ...options };
-		vue.directive(name, bem);
-	}
-};
+export default {
+  install(vue, options) {
+    const { name } = { ...defaultOptions, ...options };
+    vue.directive(name, bem);
+  }
+} as PluginObject<IVueSimpleBemOptions>;

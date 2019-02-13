@@ -1,4 +1,4 @@
-import { generateBlockName, determineModifiers } from '../helpers';
+import { generateBlockName } from '../helpers';
 
 it('should convert name to kebab case', () => {
   expect(generateBlockName('MyTest')).toBe('my-test');

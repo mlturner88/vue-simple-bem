@@ -55,7 +55,10 @@ function removeCssClass(el: HTMLElement, className: string) {
 
   if (classString && doesStringContainClass(classString, className)) {
     // ensure new CSS class string is a space seperated list
-    const newClass = classString.replace(className, '').split(/\s/).join(' ');
+    const newClass = classString
+      .replace(className, '')
+      .split(/\s/)
+      .join(' ');
     el.setAttribute('class', newClass);
   }
 }
@@ -72,7 +75,7 @@ function getElementClassString(el: HTMLElement): string | null {
 function doesStringContainClass(
   classString: string,
   className: string
-): Boolean {
+): boolean {
   if (!classString || !className) return false;
   return classString.indexOf(className) >= 0;
 }

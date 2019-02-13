@@ -9,8 +9,8 @@ beforeEach(() => {
 });
 
 /*********************************************************************
-*  All of these tests check 'el' for truthy to make typescript happy *
-**********************************************************************/
+ *  All of these tests check 'el' for truthy to make typescript happy *
+ **********************************************************************/
 
 it('should add classes if it was not already present', () => {
   if (el) {
@@ -28,7 +28,7 @@ it('should add classes if it was not already present', () => {
 it('should do nothing if no classes received', () => {
   if (el) {
     addCssClasses(el, []);
-    
+
     expect(el.classList.length).toBe(1);
   } else {
     expect(el).toBeTruthy();

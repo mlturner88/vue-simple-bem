@@ -1,34 +1,38 @@
 {
-	"name": "vue-simple-bem",
-	"version": "1.0.0",
-	"description": "A simple Vue.js directive to map BEM CSS class names.",
-	"main": "src/vue-simple-bem.js",
-	"repository": "https://github.com/mlturner88/vue-simple-bem.git",
-	"author": "Matthew Turner <mlturner88@outlook.com>",
-	"license": "MIT",
-	"private": false,
-	"dependencies": {
-		"@types/lodash.kebabcase": "^4.1.4",
-		"lodash.kebabcase": "^4.1.1",
-		"vue": "^2.6.6"
-	},
-	"devDependencies": {
-		"@types/jest": "^24.0.3",
-		"@types/jsdom": "^12.2.1",
-		"jest": "^23",
-		"jsdom": "11.5.1",
-		"prettier": "^1.16.4",
-		"rimraf": "^2.6.3",
-		"ts-jest": "^23.10.5",
-		"ts-loader": "^5.3.3",
-		"typescript": "^3.3.3",
-		"webpack": "^4.29.3",
-		"webpack-cli": "^3.2.3"
-	},
-	"scripts": {
-		"build": "npm run clean && webpack --mode production",
-		"build:dev": "npm run clean && webpack --mode development",
-		"test": "jest",
-		"clean": "rimraf dist"
-	}
+  "name": "vue-simple-bem",
+  "version": "1.0.0",
+  "description": "A simple Vue.js directive to map BEM CSS class names.",
+  "main": "src/vue-simple-bem.js",
+  "repository": "https://github.com/mlturner88/vue-simple-bem.git",
+  "author": "Matthew Turner <mlturner88@outlook.com>",
+  "license": "MIT",
+  "private": false,
+  "dependencies": {
+    "@types/jsdom": "^12.2.1",
+    "@types/lodash.kebabcase": "^4.1.4",
+    "jsdom": "11.5.1",
+    "lodash.kebabcase": "^4.1.1",
+    "vue": "^2.6.6"
+  },
+  "devDependencies": {
+    "@types/jest": "^24.0.3",
+    "jest": "^23",
+    "prettier": "^1.16.4",
+    "rimraf": "^2.6.3",
+    "ts-jest": "^23.10.5",
+    "ts-loader": "^5.3.3",
+    "tslint": "^5.12.1",
+    "tslint-config-prettier": "^1.18.0",
+    "tslint-loader": "^3.5.4",
+    "typescript": "^3.3.3",
+    "webpack": "^4.29.3",
+    "webpack-cli": "^3.2.3"
+  },
+  "scripts": {
+    "build": "npm run clean && webpack --mode production",
+    "build:dev": "npm run clean && webpack --mode development",
+    "test": "jest",
+    "clean": "rimraf dist",
+    "lint": "tslint src/**/*.ts"
+  }
 }
