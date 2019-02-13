@@ -56,8 +56,8 @@ export default {
 </template>
 ```
 
-The root `div` will become `<div class="my-component">`.
-The child element `div` will become `<div class="my-component__sample-text">`.
+* The root `div` will become `<div class="my-component">`
+* The child element `div` will become `<div class="my-component__sample-text">`
 
 The same example but with modifiers.
 
@@ -89,8 +89,8 @@ export default {
 </template>
 ```
 
-The root `div` will become `<div class="my-component my-component--bold my-component--emphasize-text">`.
-The child element `div` will become `<div class="my-component__sample-text my-component__sample-text--bold">`.
+* The root `div` will become `<div class="my-component my-component--bold my-component--emphasize-text">`
+* The child element `div` will become `<div class="my-component__sample-text my-component__sample-text--bold">`
 
 If a modifier is always on then you can use this syntax. You can use both together as well.
 
@@ -114,8 +114,8 @@ export default {
 </template>
 ```
 
-The root `div` will become `<div class="my-component my-component--float-left">`.
-The child element `div` will become `<div class="my-component__sample-text my-component__sample-text--bold my-component__sample-text--italics">`.
+* The root `div` will become `<div class="my-component my-component--float-left">`
+* The child element `div` will become `<div class="my-component__sample-text my-component__sample-text--bold my-component__sample-text--italics">`
 
 ## API
 
