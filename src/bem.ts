@@ -1,5 +1,6 @@
 import { PluginObject } from 'vue/types';
 import bem from './directive';
+export { default as bem } from './directive';
 
 export interface VueSimpleBemOptions {
 	name?: string;
