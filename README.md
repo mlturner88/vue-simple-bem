@@ -148,7 +148,7 @@ export default {
 ### Block
 
 The BEM block will automatically use the name of the component.
-If the component does not have a name then it will fallback to using `bem-block`.
+If the component does not have a name then it will fallback to using the component's tag that Vue uses (which is usually what you registered the component as in the parent). If neither of these are available it uses `bem-block`.
 The component's name may be either pascal cased or kebab cased.
 The name will be converted into kebab casing either way for the CSS class name.
 

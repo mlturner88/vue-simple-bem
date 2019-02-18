@@ -4,6 +4,32 @@ import { generateBemClasses } from '../helpers';
 const baseBinding = { modifiers: {}, name: 'bem' };
 const baseNode = { isRootInsert: true, isComment: false };
 const baseContext = new Vue();
+const baseCtor = {
+  extend: jest.fn(),
+  nextTick: jest.fn(),
+  set: jest.fn(),
+  delete: jest.fn(),
+  directive: jest.fn(),
+  filter: jest.fn(),
+  component: jest.fn(),
+  use: jest.fn(),
+  mixin: jest.fn(),
+  compile: jest.fn(),
+  observable: jest.fn(),
+  version: '2.2',
+  config: {
+    silent: false,
+    optionMergeStrategies: {},
+    devtools: false,
+    productionTip: false,
+    performance: false,
+    errorHandler: jest.fn(),
+    warnHandler: jest.fn(),
+    ignoredElements: [''],
+    keyCodes: {},
+    async: false
+  }
+};
 
 it('should use default block if none was found', () => {
   const [block] = generateBemClasses(baseBinding, baseNode);
@@ -18,6 +44,23 @@ it('should use name for block', () => {
   });
 
   expect(block).toBe('my-name');
+});
+
+it('should use component tag name if component name is missing', () => {
+  const $vnode = { ...baseContext.$vnode };
+  $vnode.componentOptions = {
+    Ctor: { ...baseCtor } as any,
+    tag: 'SomeComponent'
+  };
+  const [block] = generateBemClasses(baseBinding, {
+    ...baseNode,
+    context: {
+      ...baseContext,
+      $vnode
+    }
+  });
+
+  expect(block).toBe('some-component');
 });
 
 it('should use binding argument for element', () => {

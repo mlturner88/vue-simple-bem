@@ -88,13 +88,17 @@ export function generateBemClasses(
   let block = 'bem-block';
   let elem;
 
-  if (
-    node.context &&
-    (node.context.$options.name || node.context.$el.tagName)
-  ) {
-    block = generateBlockName(
-      node.context.$options.name || node.context.$el.tagName
-    );
+  if (node.context) {
+    if (node.context.$options.name) {
+      // if component name was given
+      block = generateBlockName(node.context.$options.name);
+    } else if (
+      node.context.$vnode.componentOptions &&
+      node.context.$vnode.componentOptions.tag
+    ) {
+      // if component name wasn't given and component tag is available
+      block = generateBlockName(node.context.$vnode.componentOptions.tag);
+    }
   }
 
   if (binding.arg) {
