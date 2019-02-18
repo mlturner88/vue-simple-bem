@@ -60,5 +60,6 @@ typings/
 # next.js build output
 .next
 
-# webpack output
+# rollup output
 dist
+.rpt2_cache

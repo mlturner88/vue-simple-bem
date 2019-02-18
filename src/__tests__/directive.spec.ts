@@ -1,5 +1,5 @@
 import { JSDOM } from 'jsdom';
-import directive from '../directive';
+import { bemDirective as directive } from '../directive';
 
 let el: HTMLElement | null = null;
 const baseBinding = { modifiers: {}, name: 'bem' };

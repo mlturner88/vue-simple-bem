@@ -14,12 +14,12 @@ You can install the directive as a global dependency. The [configuration options
 
 ```javascript
 import Vue from 'vue';
-import bem from 'vue-simple-bem';
+import { bemPlugin } from 'vue-simple-bem';
 
-Vue.use(bem, {...});
+Vue.use(bemPlugin, {...});
 ```
 
-You can also import it directly into a component. Note that you do not use the default export when using this method.
+You can also import it directly into a component.
 
 ```vue
 <script>

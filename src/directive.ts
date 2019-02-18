@@ -6,7 +6,7 @@ import {
   removeCssClasses
 } from './helpers';
 
-export default {
+export const bemDirective = {
   inserted(el, binding, node) {
     const [block, elem, mods] = generateBemClasses(binding, node);
     addCssClasses(el, [!elem ? block : elem, ...mods]);

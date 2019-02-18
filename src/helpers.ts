@@ -41,7 +41,7 @@ function generateModifierName(
 function addCssClass(el: HTMLElement, className: string) {
   const classString = getElementClassString(el);
 
-  if (classString && !doesStringContainClass(classString, className)) {
+  if (!doesStringContainClass(classString, className)) {
     el.setAttribute('class', `${classString} ${className}`);
   }
 }
@@ -53,8 +53,8 @@ export function addCssClasses(el: HTMLElement, classNames: string[]) {
 function removeCssClass(el: HTMLElement, className: string) {
   const classString = getElementClassString(el);
 
-  if (classString && doesStringContainClass(classString, className)) {
-    // ensure new CSS class string is a space seperated list
+  if (doesStringContainClass(classString, className)) {
+    // ensure new CSS class string is a space separated list
     const newClass = classString
       .replace(className, '')
       .split(/\s/)
@@ -67,13 +67,14 @@ export function removeCssClasses(el: HTMLElement, classNames: string[]) {
   classNames.forEach(c => removeCssClass(el, c));
 }
 
-function getElementClassString(el: HTMLElement): string | null {
-  if (!el) return null;
-  return el.getAttribute('class');
+function getElementClassString(el: HTMLElement): string {
+  if (!el) return '';
+  const classString = el.getAttribute('class');
+  return !classString ? '' : classString;
 }
 
 function doesStringContainClass(
-  classString: string,
+  classString: string | null,
   className: string
 ): boolean {
   if (!classString || !className) return false;
@@ -87,8 +88,13 @@ export function generateBemClasses(
   let block = 'bem-block';
   let elem;
 
-  if (node.context && node.context.$options.name) {
-    block = generateBlockName(node.context.$options.name);
+  if (
+    node.context &&
+    (node.context.$options.name || node.context.$el.tagName)
+  ) {
+    block = generateBlockName(
+      node.context.$options.name || node.context.$el.tagName
+    );
   }
 
   if (binding.arg) {
