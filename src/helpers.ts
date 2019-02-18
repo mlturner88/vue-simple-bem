@@ -87,8 +87,27 @@ export function generateBemClasses(
 ): [string, string | undefined, string[]] {
   let block = 'bem-block';
   let elem;
+  let selfBlock = false;
 
-  if (node.context) {
+  if (binding.arg === 'self' && node.componentOptions) {
+    // if user wishes to add BEM inside of the child component context
+    selfBlock = true; // mark this as true so an element won't be generated
+
+    if (
+      node.componentOptions.Ctor &&
+      (node.componentOptions.Ctor as any).extendOptions &&
+      (node.componentOptions.Ctor as any).extendOptions.name
+    ) {
+      // if the child component name was found
+      // typescript isn't happy about the extendOptions property
+      block = generateBlockName(
+        (node.componentOptions.Ctor as any).extendOptions.name
+      );
+    } else if (node.componentOptions.tag) {
+      // if the child component registered tag was found
+      block = generateBlockName(node.componentOptions.tag);
+    }
+  } else if (node.context) {
     if (node.context.$options.name) {
       // if component name was given
       block = generateBlockName(node.context.$options.name);
@@ -101,7 +120,7 @@ export function generateBemClasses(
     }
   }
 
-  if (binding.arg) {
+  if (!selfBlock && binding.arg) {
     elem = generateElementName(block, binding.arg);
   }
 

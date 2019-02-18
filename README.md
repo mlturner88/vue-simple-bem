@@ -148,7 +148,9 @@ export default {
 ### Block
 
 The BEM block will automatically use the name of the component.
-If the component does not have a name then it will fallback to using the component's tag that Vue uses (which is usually what you registered the component as in the parent). If neither of these are available it uses `bem-block`.
+If the component does not have a name then it will fallback to using the component's tag that
+Vue uses (which is usually what you registered the component as in the parent).
+If neither of these are available it uses `bem-block`.
 The component's name may be either pascal cased or kebab cased.
 The name will be converted into kebab casing either way for the CSS class name.
 
@@ -157,7 +159,9 @@ If the component's name is `another-component` then the CSS block class name wil
 
 ### Block Modifiers
 
-If you bind an object with properties to the directive then anything that evaluates as `truthy` will be converted to kebab casing and used as a block modifier.
+If you bind an object with properties to the directive then anything that evaluates as `truthy`
+will be converted to kebab casing and used as a block modifier.
+[It is also possible to add a block modifier onto a child component's context.](#block-mod-in-child-component-context)
 The below example will add the following CSS classes.
 
 * `my-component`
@@ -217,7 +221,8 @@ export default {
 
 You may add an element CSS class using the below syntax.
 The [block portion will still use the component's name.](#block)
-The below example will generate CSS element classes called `my-component__some-elem` and `my-component__text` respectively.
+The below example will generate CSS element classes called
+`my-component__some-elem` and `my-component__text` respectively.
 
 ```vue
 <script>
@@ -292,6 +297,33 @@ export default {
 </template>
 ```
 
+### Block Mod in Child Component Context
+
+If you want to add a BEM mod onto a child component's context then you can specify the element
+to be `self`. The child component's name or tag will be used to determine the block and the mod
+will be determined like normal. The example below will generate the following CSS classes for the
+child component and add them to the child component CSS class list.
+
+* `child-component--bold`
+* `child-component--underline`
+
+```vue
+<script>
+import ChildComponent from './ChildComponent';
+
+export default {
+  name: 'ParentComponent',
+  components: { ChildComponent }
+};
+</script>
+
+<template>
+  <div v-bem>
+    <child-component v-bem:self.bold="{ underline: true, strikeout: false }" />
+  </div>
+</template>
+```
+
 ## Plugin Configuration
 
 ### Name
@@ -310,6 +342,6 @@ The below example shows adding a block after changing the name to `'css'`.
 
 ## Planned Work
 
-- [ ] Add ability to apply BEM mod to child component
+- [x] Add ability to apply BEM mod to child component
 - [ ] Add option to manually specify component property that indicates the BEM block instead of using `name`
 - [ ] Add option to configure whether names are kebab cased or not

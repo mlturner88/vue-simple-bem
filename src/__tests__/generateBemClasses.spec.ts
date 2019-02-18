@@ -1,8 +1,9 @@
 import Vue from 'vue';
+import { VNode } from 'vue/types';
 import { generateBemClasses } from '../helpers';
 
 const baseBinding = { modifiers: {}, name: 'bem' };
-const baseNode = { isRootInsert: true, isComment: false };
+const baseNode: VNode = { isRootInsert: true, isComment: false };
 const baseContext = new Vue();
 const baseCtor = {
   extend: jest.fn(),
@@ -52,6 +53,7 @@ it('should use component tag name if component name is missing', () => {
     Ctor: { ...baseCtor } as any,
     tag: 'SomeComponent'
   };
+
   const [block] = generateBemClasses(baseBinding, {
     ...baseNode,
     context: {
@@ -61,6 +63,54 @@ it('should use component tag name if component name is missing', () => {
   });
 
   expect(block).toBe('some-component');
+});
+
+it('should use child component name as block if element is self', () => {
+  const node = { ...baseNode };
+  node.componentOptions = {
+    Ctor: {
+      ...baseCtor,
+      extendOptions: { name: 'ChildComponentName' }
+    } as any
+  };
+
+  const [block] = generateBemClasses({ ...baseBinding, arg: 'self' }, node);
+
+  expect(block).toBe('child-component-name');
+});
+
+it('should use child component tag as block if element is self and name is missing', () => {
+  const node = { ...baseNode };
+  node.componentOptions = {
+    Ctor: { ...baseCtor } as any,
+    tag: 'ChildComponentTag'
+  };
+
+  const [block] = generateBemClasses({ ...baseBinding, arg: 'self' }, node);
+
+  expect(block).toBe('child-component-tag');
+});
+
+it('should use default BEM block if element is self and name and tag are missing', () => {
+  const node = { ...baseNode };
+  node.componentOptions = { Ctor: { ...baseCtor } as any };
+  const [block] = generateBemClasses({ ...baseBinding, arg: 'self' }, node);
+
+  expect(block).toBe('bem-block');
+});
+
+it('should not generate element if element given is self', () => {
+  const node = { ...baseNode };
+  node.componentOptions = {
+    Ctor: {
+      ...baseCtor,
+      extendOptions: { name: 'ChildComponentName' }
+    } as any
+  };
+
+  const [, element] = generateBemClasses({ ...baseBinding, arg: 'self' }, node);
+
+  expect(element).toBeUndefined();
 });
 
 it('should use binding argument for element', () => {
