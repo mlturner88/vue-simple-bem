@@ -32,20 +32,25 @@ export default {
 </script>
 ```
 
-## Examples
+## What is BEM?
 
-A simple example without using modifiers.
+Before continuing, you may want to get familiar with BEM and the problem it's solving. 
+
+At it's simplest, it is a css naming convention that keeps your selectors flat and 
+expresses an explicit relationship between classes in a component.
+
+Here is some further reading:
+ * https://css-tricks.com/bem-101/
+ * http://getbem.com/
+
+## Using
+
+### A simple example.
 
 ```vue
 <script>
 export default {
   name: 'MyComponent',
-  props: {
-    bold: {
-      type: Boolean,
-      default: true
-    }
-  }
 };
 </script>
 
@@ -56,10 +61,10 @@ export default {
 </template>
 ```
 
-* The root `div` will become `<div class="my-component">`
+* The root `div` will become `<div class="my-component">`. The Block name is derived from component name.
 * The child element `div` will become `<div class="my-component__sample-text">`
 
-The same example but with modifiers.
+### Example with modifiers
 
 ```vue
 <script>
@@ -92,8 +97,28 @@ export default {
 * The root `div` will become `<div class="my-component my-component--bold my-component--emphasize-text">`
 * The child element `div` will become `<div class="my-component__sample-text my-component__sample-text--bold">`
 
-If a modifier is always on then you can use this syntax. You can use both together as well.
+### Example with simplified modifiers
+If a modifier isn't dynamic then you can use this syntax. 
 
+```vue
+<script>
+export default {
+  name: 'MyComponent'
+};
+</script>
+
+<template>
+  <div v-bem.floatLeft>
+    <div v-bem:sampleText.italics>Example Text</div>
+  </div>
+</template>
+```
+
+* The root `div` will become `<div class="my-component my-component--float-left">`
+* The child element `div` will become `<div class="my-component__sample-text my-component__sample-text--italics">`
+
+### Example using both simple modifiers and dynamic modifiers
+You can use both together as well.
 ```vue
 <script>
 export default {
@@ -116,6 +141,7 @@ export default {
 
 * The root `div` will become `<div class="my-component my-component--float-left">`
 * The child element `div` will become `<div class="my-component__sample-text my-component__sample-text--bold my-component__sample-text--italics">`
+
 
 ## API
 
