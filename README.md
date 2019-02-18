@@ -307,3 +307,9 @@ The below example shows adding a block after changing the name to `'css'`.
   <div v-css>Example Text</div>
 </template>
 ```
+
+## Planned Work
+
+- [ ] Add ability to apply BEM mod to child component
+- [ ] Add option to manually specify component property that indicates the BEM block instead of using `name`
+- [ ] Add option to configure whether names are kebab cased or not
