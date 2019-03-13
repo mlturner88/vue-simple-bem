@@ -42,7 +42,7 @@ function addCssClass(el: HTMLElement, className: string) {
   const classString = getElementClassString(el);
 
   if (!doesStringContainClass(classString, className)) {
-    el.setAttribute('class', `${classString} ${className}`);
+    el.setAttribute('class', `${classString} ${className}`.trim());
   }
 }
 
