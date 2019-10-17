@@ -6,7 +6,7 @@ import {
   removeCssClasses
 } from './helpers';
 import { SimpleBemElement } from './types';
-import { createMutationObserver, mutationConfig } from './mutationObserver';
+import { createMutationObserver } from './mutationObserver';
 
 export const bemDirective = {
   inserted(el, binding, node) {
@@ -32,11 +32,6 @@ export const bemDirective = {
     bemElement.__$simpleBemElement__ = elem;
     bemElement.__$simpleBemMods__ = mods;
 
-    if (bemElement.__$simpleBemObserver__) {
-      // stop observing for now
-      bemElement.__$simpleBemObserver__.disconnect();
-    }
-
     const previousMods = determineModifiers(
       block,
       elem,
@@ -47,11 +42,6 @@ export const bemDirective = {
     const removedMods = previousMods.filter(m => mods.indexOf(m) < 0);
     removeCssClasses(el, removedMods);
     addCssClasses(el, [!elem ? block : elem, ...mods]);
-
-    if (bemElement.__$simpleBemObserver__) {
-      // continue observing
-      bemElement.__$simpleBemObserver__.observe(el, mutationConfig);
-    }
   },
 
   unbind(el) {
