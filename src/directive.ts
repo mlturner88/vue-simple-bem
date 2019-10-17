@@ -6,7 +6,7 @@ import {
   removeCssClasses
 } from './helpers';
 import { SimpleBemElement } from './types';
-import { createMutationObserver } from './mutationObserver';
+import { hookUpMutationObserver } from './mutationObserver';
 
 export const bemDirective = {
   inserted(el, binding, node) {
@@ -16,7 +16,7 @@ export const bemDirective = {
     bemElement.__$simpleBemBlock__ = block;
     bemElement.__$simpleBemElement__ = elem;
     bemElement.__$simpleBemMods__ = mods;
-    bemElement.__$simpleBemObserver__ = createMutationObserver(bemElement);
+    hookUpMutationObserver(bemElement);
   },
 
   update(el, binding, node) {
@@ -42,13 +42,5 @@ export const bemDirective = {
     const removedMods = previousMods.filter(m => mods.indexOf(m) < 0);
     removeCssClasses(el, removedMods);
     addCssClasses(el, [!elem ? block : elem, ...mods]);
-  },
-
-  unbind(el) {
-    const bemElement: SimpleBemElement = el as any;
-
-    if (bemElement.__$simpleBemObserver__) {
-      bemElement.__$simpleBemObserver__.disconnect();
-    }
   }
 } as DirectiveOptions;

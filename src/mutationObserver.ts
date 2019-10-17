@@ -1,15 +1,15 @@
 import { SimpleBemElement } from './types';
 import { addCssClasses } from './helpers';
 
-export const mutationConfig: MutationObserverInit = {
+const mutationConfig: MutationObserverInit = {
   attributeFilter: ['class'],
   attributes: true
 };
 
-export function createMutationObserver(el: SimpleBemElement): MutationObserver {
-  const observer = new MutationObserver(mutationCallback);
+const observer = new MutationObserver(mutationCallback);
+
+export function hookUpMutationObserver(el: SimpleBemElement) {
   observer.observe(el, mutationConfig);
-  return observer;
 }
 
 function mutationCallback(mutationList: MutationRecord[]) {
