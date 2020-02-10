@@ -1,4 +1,5 @@
 import { PluginObject } from 'vue/types';
+import './polyfills';
 import { bemDirective } from './directive';
 
 export interface IVueSimpleBemOptions {
