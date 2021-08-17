@@ -13,9 +13,11 @@
   "author": "Matthew Turner <mlturner88@outlook.com>",
   "license": "MIT",
   "private": false,
+  "peerDependencies": {
+    "vue": "~3.0.0"
+  },
   "dependencies": {
-    "kebab-case": "^1.0.1",
-    "vue": "^3.2.0"
+    "kebab-case": "^1.0.1"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.14.1",
