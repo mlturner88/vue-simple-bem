@@ -1,5 +1,5 @@
 {
-  "name": "vue3-simple-bem",
+  "name": "vue-simple-bem",
   "version": "1.0.0",
   "description": "A simple Vue.js directive to map BEM CSS class names.",
   "type": "module",
@@ -34,7 +34,7 @@
     "vite": "^2.5.0"
   },
   "scripts": {
-    "build": "npm run clean && rollup -c",
+    "build": "npm run clean && npx vite build",
     "test": "jest",
     "clean": "rimraf dist"
   }
