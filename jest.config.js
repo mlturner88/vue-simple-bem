@@ -1,10 +1,10 @@
-module.exports = {
+export default {
   roots: ['<rootDir>/src'],
   transform: {
-    '^.+\\.tsx?$': 'ts-jest'
+    '^.+\\.tsx?$': 'ts-jest',
   },
   testRegex: '(/__tests__/.*|(\\.|/)(test|spec))\\.tsx?$',
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
   moduleDirectories: ['node_modules', 'src'],
-  setupFiles: ['./jest/mutationObserver.js']
+  setupFilesAfterEnv: ['<rootDir>/jest-setup.ts'],
 };

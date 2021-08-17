@@ -1,172 +1,196 @@
-import { JSDOM } from 'jsdom';
-import { bemDirective as directive } from '../directive';
+/**
+ * @jest-environment jsdom
+ */
 
-let el: HTMLElement | null = null;
-const baseBinding = { modifiers: {}, name: 'bem' };
-const baseNode = { isRootInsert: true, isComment: false };
+import { render } from '@testing-library/vue';
+import { Component, defineComponent, h, withDirectives } from 'vue';
+import { bemDirective } from '../directive';
 
-beforeEach(() => {
-  const { window } = new JSDOM('<div class="some-class">Some Text</div>');
-  el = window.document.querySelector('div');
-});
+const basicCases: [string, Component, string[]][] = [
+  [
+    'v-bem only',
+    defineComponent({
+      name: 'empty-block',
+      render: () => withDirectives(h('div'), [[bemDirective]]),
+    }),
+    ['empty-block'],
+  ],
+  [
+    'v-bem with element argument',
+    defineComponent({
+      name: 'block-with-elem',
+      render: () =>
+        withDirectives(h('div'), [[bemDirective, undefined, 'elem']]),
+    }),
+    ['block-with-elem__elem'],
+  ],
+  [
+    'v-bem with mods',
+    defineComponent({
+      name: 'block-with-mods',
+      render: () =>
+        withDirectives(h('div'), [
+          [bemDirective, { SomeMod: true, AnotherMod: true }],
+        ]),
+    }),
+    ['block-with-mods--some-mod', 'block-with-mods--another-mod'],
+  ],
+  [
+    'v-bem with elem argument and mods',
+    defineComponent({
+      name: 'block-with-elem-and-mods',
+      render: () =>
+        withDirectives(h('div'), [
+          [bemDirective, { SomeMod: true, AnotherMod: true }, 'elem'],
+        ]),
+    }),
+    [
+      'block-with-elem-and-mods__elem--some-mod',
+      'block-with-elem-and-mods__elem--another-mod',
+    ],
+  ],
+];
 
-/*********************************************************************
- *  All of these tests check 'el' for truthy to make typescript happy *
- **********************************************************************/
-
-it('should add block to element upon insertion', () => {
-  if (el && directive.inserted) {
-    directive.inserted(el, baseBinding, baseNode, baseNode);
-
-    expect(el.classList).toContain('bem-block');
-  } else {
-    expect(el).toBeTruthy();
+it.each(basicCases)(
+  'should handle %s example correctly',
+  (name, component, result) => {
+    const ctx = render(component);
+    expect(ctx.container.firstChild).toHaveClass(...result);
   }
-});
+);
 
-it('should add element to element upon insertion', () => {
-  if (el && directive.inserted) {
-    directive.inserted(
-      el,
-      { ...baseBinding, arg: 'AnElem' },
-      baseNode,
-      baseNode
-    );
-
-    expect(el.classList).toContain('bem-block__an-elem');
-  } else {
-    expect(el).toBeTruthy();
-  }
-});
-
-it('should add block mods to element upon insertion', () => {
-  if (el && directive.inserted) {
-    directive.inserted(
-      el,
-      { ...baseBinding, modifiers: { SomeMod: true, AnotherMod: true } },
-      baseNode,
-      baseNode
-    );
-
-    expect(el.classList).toContain('bem-block');
-    expect(el.classList).toContain('bem-block--some-mod');
-    expect(el.classList).toContain('bem-block--another-mod');
-  } else {
-    expect(el).toBeTruthy();
-  }
-});
-
-it('should add element mods to element upon insertion', () => {
-  if (el && directive.inserted) {
-    directive.inserted(
-      el,
-      {
-        ...baseBinding,
-        modifiers: { SomeMod: true, AnotherMod: true },
-        arg: 'MyElem'
+it('should remove mods after update', async () => {
+  const ctx = render(
+    defineComponent({
+      name: 'RemoveMyMods',
+      props: {
+        mods: {
+          type: Object,
+          default: () => ({ falseMod: true, goodMod: true }),
+        },
       },
-      baseNode,
-      baseNode
-    );
+      render() {
+        return withDirectives(h('div'), [[bemDirective, this.mods]]);
+      },
+    })
+  );
 
-    expect(el.classList).toContain('bem-block__my-elem');
-    expect(el.classList).toContain('bem-block__my-elem--some-mod');
-    expect(el.classList).toContain('bem-block__my-elem--another-mod');
-  } else {
-    expect(el).toBeTruthy();
-  }
+  expect(ctx.container.firstChild).toHaveClass(
+    'remove-my-mods--false-mod',
+    'remove-my-mods--good-mod'
+  );
+
+  await ctx.rerender({
+    mods: { falseMod: false, goodMod: true, newMod: true },
+  });
+
+  expect(ctx.container.firstChild).not.toHaveClass('remove-my-mods--false-mod');
+  expect(ctx.container.firstChild).toHaveClass(
+    'remove-my-mods--good-mod',
+    'remove-my-mods--new-mod'
+  );
 });
 
-it('should remove mods after update', () => {
-  if (el && directive.update) {
-    el.classList.add('bem-block');
-    el.classList.add('bem-block--false-mod');
-    el.classList.add('bem-block--good-mod');
-    directive.update(
-      el,
-      {
-        ...baseBinding,
-        value: { FalseMod: false, GoodMod: true, NewMod: true },
-        oldValue: { FalseMod: true, GoodMod: true }
+it('should remove mods after update with element', async () => {
+  const ctx = render(
+    defineComponent({
+      name: 'RemoveMyElemMods',
+      props: {
+        mods: {
+          type: Object,
+          default: () => ({ falseMod: true, goodMod: true }),
+        },
       },
-      baseNode,
-      baseNode
-    );
+      render() {
+        return withDirectives(h('div'), [[bemDirective, this.mods, 'el']]);
+      },
+    })
+  );
 
-    expect(el.classList).toContain('bem-block');
-    expect(el.classList).not.toContain('bem-block--false-mod');
-    expect(el.classList).toContain('bem-block--good-mod');
-    expect(el.classList).toContain('bem-block--new-mod');
-  } else {
-    expect(el).toBeTruthy();
-  }
+  expect(ctx.container.firstChild).toHaveClass(
+    'remove-my-elem-mods__el--false-mod',
+    'remove-my-elem-mods__el--good-mod'
+  );
+
+  await ctx.rerender({
+    mods: { falseMod: false, goodMod: true, newMod: true },
+  });
+
+  expect(ctx.container.firstChild).not.toHaveClass(
+    'remove-my-elem-mods__el--false-mod'
+  );
+  expect(ctx.container.firstChild).toHaveClass(
+    'remove-my-elem-mods__el--good-mod',
+    'remove-my-elem-mods__el--new-mod'
+  );
 });
 
-it('should remove mods after update with element', () => {
-  if (el && directive.update) {
-    el.classList.add('bem-block__my-elem');
-    el.classList.add('bem-block__my-elem--false-mod');
-    el.classList.add('bem-block__my-elem--good-mod');
-    directive.update(
-      el,
-      {
-        ...baseBinding,
-        value: { FalseMod: false, GoodMod: true, NewMod: true },
-        oldValue: { FalseMod: true, GoodMod: true },
-        arg: 'MyElem'
+it('should add new mod after update', async () => {
+  const ctx = render(
+    defineComponent({
+      name: 'AddNewMod',
+      props: {
+        mods: {
+          type: Object,
+          default: () => ({}),
+        },
       },
-      baseNode,
-      baseNode
-    );
+      render() {
+        return withDirectives(h('div'), [[bemDirective, this.mods]]);
+      },
+    })
+  );
 
-    expect(el.classList).toContain('bem-block__my-elem');
-    expect(el.classList).not.toContain('bem-block__my-elem--false-mod');
-    expect(el.classList).toContain('bem-block__my-elem--good-mod');
-    expect(el.classList).toContain('bem-block__my-elem--new-mod');
-  } else {
-    expect(el).toBeTruthy();
-  }
+  expect(ctx.container.firstChild).toHaveClass('add-new-mod');
+
+  await ctx.rerender({ mods: { newMod: true } });
+
+  expect(ctx.container.firstChild).toHaveClass('add-new-mod--new-mod');
 });
 
-it('should add new mod after update', () => {
-  if (el && directive.update) {
-    el.classList.add('bem-block');
-    directive.update(
-      el,
-      {
-        ...baseBinding,
-        value: { NewMod: true },
-        oldValue: {}
+it('should add new mod after update with element', async () => {
+  const ctx = render(
+    defineComponent({
+      name: 'AddNewMod',
+      props: {
+        mods: {
+          type: Object,
+          default: () => ({}),
+        },
       },
-      baseNode,
-      baseNode
-    );
+      render() {
+        return withDirectives(h('div'), [[bemDirective, this.mods, 'elly']]);
+      },
+    })
+  );
 
-    expect(el.classList).toContain('bem-block');
-    expect(el.classList).toContain('bem-block--new-mod');
-  } else {
-    expect(el).toBeTruthy();
-  }
+  expect(ctx.container.firstChild).toHaveClass('add-new-mod__elly');
+
+  await ctx.rerender({ mods: { newMod: true } });
+
+  expect(ctx.container.firstChild).toHaveClass('add-new-mod__elly--new-mod');
 });
 
-it('should add new mod after update with element', () => {
-  if (el && directive.update) {
-    el.classList.add('bem-block__my-elem');
-    directive.update(
-      el,
-      {
-        ...baseBinding,
-        value: { NewMod: true },
-        oldValue: {},
-        arg: 'MyElem'
+it('should retain mods even after a mutation', async () => {
+  const ctx = render(
+    defineComponent({
+      name: 'KeepMyMods',
+      props: {
+        addOtherClass: {
+          type: Boolean,
+          default: false,
+        },
       },
-      baseNode,
-      baseNode
-    );
+      render() {
+        return withDirectives(
+          h('div', { class: { 'some-class': this.addOtherClass } }, []),
+          [[bemDirective, { newMod: true }]]
+        );
+      },
+    })
+  );
 
-    expect(el.classList).toContain('bem-block__my-elem');
-    expect(el.classList).toContain('bem-block__my-elem--new-mod');
-  } else {
-    expect(el).toBeTruthy();
-  }
+  expect(ctx.container.firstChild).toHaveClass('keep-my-mods');
+  await ctx.rerender({ addOtherClass: true });
+  expect(ctx.container.firstChild).toHaveClass('keep-my-mods', 'some-class');
 });

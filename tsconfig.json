@@ -15,6 +15,6 @@
     "esModuleInterop": true,
     "lib": ["es2015", "dom", "es6", "es2017"]
   },
-  "include": ["src/**/*"],
+  "include": ["./global.d.ts","src/**/*", "./jest-setup.ts"],
   "exclude": ["node_modules"]
 }

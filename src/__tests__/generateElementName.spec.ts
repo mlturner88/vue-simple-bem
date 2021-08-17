@@ -1,19 +1,14 @@
 import { generateElementName } from '../helpers';
 
-it('should add BEM element', () => {
-  expect(generateElementName('test-block', 'MyElement')).toBe(
-    'test-block__my-element'
-  );
-});
+const cases = [
+  ['test-block', 'MyElement', 'test-block__my-element'],
+  ['test-block', ' Another Element ', 'test-block__another-element'],
+  ['test-block', 'kebab-element', 'test-block__kebab-element'],
+];
 
-it('should trim incoming element string', () => {
-  expect(generateElementName('test-block', ' Another Element ')).toBe(
-    'test-block__another-element'
-  );
-});
-
-it('should preserve kebab casing if element already has kebab casing', () => {
-  expect(generateElementName('test-block', 'kebab-element')).toBe(
-    'test-block__kebab-element'
-  );
-});
+it.each(cases)(
+  'should combine block %s and elem %s into class name %s',
+  (block, elem, result) => {
+    expect(generateElementName(block, elem)).toBe(result);
+  }
+);
