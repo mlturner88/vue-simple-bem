@@ -1,12 +1,11 @@
 import type { ComponentPublicInstance, DirectiveBinding, VNode } from 'vue';
-import kebabCase from 'kebab-case';
 
 export function generateBlockName(name: string): string {
-  return cleanKebab(name);
+  return kebabCase(name);
 }
 
 export function generateElementName(block: string, name: string): string {
-  return `${block}__${cleanKebab(name)}`;
+  return `${block}__${kebabCase(name)}`;
 }
 
 export function determineModifiers(
@@ -17,15 +16,7 @@ export function determineModifiers(
 ): string[] {
   return Object.entries({ ...modifiers, ...conditions })
     .filter(([, active]) => active)
-    .map(([mod]) => `${elem ?? block}--${cleanKebab(mod)}`);
-}
-
-export function addCssClasses(el: HTMLElement, classNames: string[]): void {
-  el.classList.add(...classNames);
-}
-
-export function removeCssClasses(el: HTMLElement, classNames: string[]): void {
-  el.classList.remove(...classNames);
+    .map(([mod]) => `${elem ?? block}--${kebabCase(mod)}`);
 }
 
 export function generateBemClasses(
@@ -68,8 +59,11 @@ function getBlockId({ $options, $el }: ComponentPublicInstance) {
   return blockId ? generateBlockName(blockId.toString()) : 'bem-block';
 }
 
-function cleanKebab(value: string): string {
-  const result = kebabCase(value.trim().split(' ').join(''));
-  if (result[0] === '-') return result.slice(1);
-  else return result;
+const kebabRegex = /([A-Z])([^A-Z]*)/g;
+function kebabCase(value: string): string {
+  const cleaned = value.trim().split(' ').join('');
+  const result = cleaned.replace(kebabRegex, (m, p1, p2) => {
+    return `-${p1.toLowerCase()}${p2}`;
+  });
+  return result[0] === '-' ? result.slice(1) : result;
 }

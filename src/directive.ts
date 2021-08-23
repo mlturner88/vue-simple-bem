@@ -1,16 +1,11 @@
 import { Directive } from 'vue';
-import {
-  addCssClasses,
-  determineModifiers,
-  generateBemClasses,
-  removeCssClasses,
-} from './helpers';
+import { determineModifiers, generateBemClasses } from './helpers';
 import { SimpleBemElement } from './types';
 
 export const bemDirective: Directive = {
   mounted(el, binding, node) {
     const [block, elem, mods] = generateBemClasses(binding, node);
-    addCssClasses(el, [elem ?? block, ...mods]);
+    el.classList.add(elem ?? block, ...mods);
     assignBemAttributes(el, block, elem, mods);
   },
 
@@ -29,8 +24,8 @@ export const bemDirective: Directive = {
 
     const previousMods = determineModifiers(block, elem, modifiers, oldValue);
     const removedMods = previousMods.filter((m) => !mods.includes(m));
-    removeCssClasses(el, removedMods);
-    addCssClasses(el, [elem ?? block, ...mods]);
+    el.classList.remove(...removedMods);
+    el.classList.add(elem ?? block, ...mods);
   },
 };
 

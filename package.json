@@ -16,9 +16,6 @@
   "peerDependencies": {
     "vue": "~3.0.0"
   },
-  "dependencies": {
-    "kebab-case": "^1.0.1"
-  },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/vue": "^6.4.2",

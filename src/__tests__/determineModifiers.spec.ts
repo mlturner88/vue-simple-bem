@@ -4,12 +4,13 @@
 
 import { determineModifiers } from '../helpers';
 
-const modifiers = { BoldMod: true, ItalicsMod: true, UnderlineMod: false };
+const modifiers = { BoldMod: true, italicsMod: true, UnderlineMod: false };
 const emptyModifiers = { MyMod: false };
-const conditionals = { StrikethroughMod: true, WhateverMod: false };
+const conditionals = { 'strikethrough-mod': true, 'whatever-mod': false };
 const emptyConditionals = { AnotherMod: false, YetAnotherMod: false };
 const block = 'test-block';
 const elem = 'test-element';
+
 const results = (name: string) => [
   `${name}--bold-mod`,
   `${name}--italics-mod`,
