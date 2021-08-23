@@ -3,12 +3,12 @@
   "version": "1.0.0",
   "description": "A simple Vue.js directive to map BEM CSS class names.",
   "type": "module",
-  "main": "dist/vue-simple-bem.js",
+  "main": "dist/vue-simple-bem.umd.js",
   "module": "dist/vue-simple-bem.es.js",
   "files": [
     "dist"
   ],
-  "types": "dist/vue-simple-bem.d.ts",
+  "types": "dist/index.d.ts",
   "repository": "https://github.com/mlturner88/vue-simple-bem.git",
   "author": "Matthew Turner <mlturner88@outlook.com>",
   "license": "MIT",
@@ -30,10 +30,11 @@
     "prettier": "^2.0.0",
     "ts-jest": "^27.0.0",
     "typescript": "^4.3.0",
-    "vite": "^2.5.0"
+    "vite": "^2.5.0",
+    "vue": "~3.0.0"
   },
   "scripts": {
-    "build": "npm run clean && npx vite build",
+    "build": "npm run clean && npx vite build && tsc --emitDeclarationOnly -p ./tsconfig.build.json",
     "test": "jest",
     "clean": "rimraf dist"
   }

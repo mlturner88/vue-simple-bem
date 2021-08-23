@@ -1,0 +1,18 @@
+{
+    "compilerOptions": {
+      "rootDir": ".",
+      "outDir": "./dist",
+      "declaration": true,
+      "declarationDir": "./dist",
+      "skipLibCheck": true,
+      "strict": true,
+      "noImplicitAny": true,
+      "module": "esnext",
+      "moduleResolution": "node",
+      "target": "es2017",
+      "sourceMap": true,
+      "esModuleInterop": true,
+      "lib": ["dom", "es2020"]
+    }
+  }
+  
