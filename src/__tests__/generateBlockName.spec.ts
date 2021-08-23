@@ -1,13 +1,11 @@
 import { generateBlockName } from '../helpers';
 
-it('should convert name to kebab case', () => {
-  expect(generateBlockName('MyTest')).toBe('my-test');
-});
+const testCases = [
+  ['MyTest', 'my-test'],
+  [' AnotherTest ', 'another-test'],
+  ['do-nothing', 'do-nothing'],
+];
 
-it('should trim incoming string', () => {
-  expect(generateBlockName(' AnotherTest ')).toBe('another-test');
-});
-
-it('should return input if already in kebab casing', () => {
-  expect(generateBlockName('do-nothing')).toBe('do-nothing');
+it.each(testCases)('generates block name %s from input %s', (input, result) => {
+  expect(generateBlockName(input)).toBe(result);
 });

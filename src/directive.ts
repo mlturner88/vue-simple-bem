@@ -1,46 +1,42 @@
-import { DirectiveOptions } from 'vue/types';
-import {
-  addCssClasses,
-  determineModifiers,
-  generateBemClasses,
-  removeCssClasses
-} from './helpers';
+import { Directive } from 'vue';
+import { determineModifiers, generateBemClasses } from './helpers';
 import { SimpleBemElement } from './types';
-import { hookUpMutationObserver } from './mutationObserver';
 
-export const bemDirective = {
-  inserted(el, binding, node) {
+export const bemDirective: Directive = {
+  mounted(el, binding, node) {
     const [block, elem, mods] = generateBemClasses(binding, node);
-    const bemElement: SimpleBemElement = el as any;
-    addCssClasses(bemElement, [!elem ? block : elem, ...mods]);
-    bemElement.__$simpleBemBlock__ = block;
-    bemElement.__$simpleBemElement__ = elem;
-    bemElement.__$simpleBemMods__ = mods;
-    hookUpMutationObserver(bemElement);
+    el.classList.add(elem ?? block, ...mods);
+    assignBemAttributes(el, block, elem, mods);
   },
 
-  update(el, binding, node) {
-    if (JSON.stringify(binding.value) === JSON.stringify(binding.oldValue)) {
+  updated(el, binding, node) {
+    const { value, oldValue, modifiers } = binding;
+    const bindingHasChanged =
+      JSON.stringify(value) !== JSON.stringify(oldValue);
+    const classHasChanged = (el.__$lastClasses__ ?? null) !== el.className;
+    if (!(bindingHasChanged || classHasChanged)) {
       // if the value hasn't changed then do nothing
       return;
     }
 
     const [block, elem, mods] = generateBemClasses(binding, node);
+    assignBemAttributes(el, block, elem, mods);
 
-    const bemElement: SimpleBemElement = el as any;
-    bemElement.__$simpleBemBlock__ = block;
-    bemElement.__$simpleBemElement__ = elem;
-    bemElement.__$simpleBemMods__ = mods;
+    const previousMods = determineModifiers(block, elem, modifiers, oldValue);
+    const removedMods = previousMods.filter((m) => !mods.includes(m));
+    el.classList.remove(...removedMods);
+    el.classList.add(elem ?? block, ...mods);
+  },
+};
 
-    const previousMods = determineModifiers(
-      block,
-      elem,
-      binding.modifiers,
-      binding.oldValue
-    );
-
-    const removedMods = previousMods.filter(m => mods.indexOf(m) < 0);
-    removeCssClasses(el, removedMods);
-    addCssClasses(el, [!elem ? block : elem, ...mods]);
-  }
-} as DirectiveOptions;
+function assignBemAttributes(
+  el: SimpleBemElement,
+  block: string,
+  elem: string | undefined,
+  mods: string[]
+) {
+  el.__$simpleBemBlock__ = block;
+  el.__$simpleBemElement__ = elem;
+  el.__$simpleBemMods__ = mods;
+  el.__$lastClasses__ = el.className;
+}

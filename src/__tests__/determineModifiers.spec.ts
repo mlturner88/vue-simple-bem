@@ -1,42 +1,40 @@
+/**
+ * @jest-environment node
+ */
+
 import { determineModifiers } from '../helpers';
 
-it('should create BEM mod classes for truthy conditionals', () => {
-  // test first without element
-  expect(
-    determineModifiers(
-      'test-block',
-      undefined,
-      { BoldMod: true, ItalicsMod: true, UnderlineMod: false },
-      { StrikethroughMod: true, WhateverMod: false }
-    )
-  ).toEqual([
-    'test-block--bold-mod',
-    'test-block--italics-mod',
-    'test-block--strikethrough-mod'
-  ]);
+const modifiers = { BoldMod: true, italicsMod: true, UnderlineMod: false };
+const emptyModifiers = { MyMod: false };
+const conditionals = { 'strikethrough-mod': true, 'whatever-mod': false };
+const emptyConditionals = { AnotherMod: false, YetAnotherMod: false };
+const block = 'test-block';
+const elem = 'test-element';
 
-  // test next with element
-  expect(
-    determineModifiers(
-      'test-block',
-      'test-element',
-      { BoldMod: true, ItalicsMod: true, UnderlineMod: false },
-      { StrikethroughMod: true, WhateverMod: false }
-    )
-  ).toEqual([
-    'test-element--bold-mod',
-    'test-element--italics-mod',
-    'test-element--strikethrough-mod'
-  ]);
-});
+const results = (name: string) => [
+  `${name}--bold-mod`,
+  `${name}--italics-mod`,
+  `${name}--strikethrough-mod`,
+];
 
-it('should return empty array if no mods are truthy', () => {
-  expect(
-    determineModifiers(
-      'nothing-block',
-      undefined,
-      { MyMod: false },
-      { AnotherMod: false, YetAnotherMod: false }
-    )
-  ).toEqual([]);
-});
+const testCases = [
+  [
+    block,
+    undefined,
+    { ...modifiers },
+    { ...conditionals },
+    results(block),
+  ] as const,
+  [block, elem, { ...modifiers }, { ...conditionals }, results(elem)] as const,
+  ['nothing-block', undefined, emptyModifiers, emptyConditionals, []] as const,
+];
+
+it.each(testCases)(
+  'with %p block, %p elem, %p modifiers, and %p conditionals, function should return %p ',
+  (block, elem, modifiers, conditionals, results) => {
+    // test first without element
+    expect(determineModifiers(block, elem, modifiers, conditionals)).toEqual(
+      results
+    );
+  }
+);

@@ -1,6 +1,8 @@
 # Vue Simple BEM
 
-A simple Vue.js directive to map BEM CSS class names.
+> **Note**: The below documentation is for using `vue-simple-bem` with Vue 3. If you're looking for instructions on using `vue-simple-bem` with Vue 2, see [previous versions of the README](https://github.com/mlturner88/vue-simple-bem/blob/v1.2.0/README.md).
+
+A simple directive to bring BEM to Vue 3. Less than 1KiB compressed. No external dependencies.
 
 ## Installation
 
@@ -13,10 +15,11 @@ Install using your package manager of choice.
 You can install the directive as a global dependency. The [configuration options](#plugin-configuration) are optional.
 
 ```javascript
-import Vue from 'vue';
-import { bemPlugin } from 'vue-simple-bem';
+import { createApp } from 'vue';
+import VueSimpleBem from 'vue-simple-bem';
 
-Vue.use(bemPlugin, {...});
+const app = createApp({...});
+app.use(VueSimpleBem);
 ```
 
 You can also import it directly into a component.
@@ -43,7 +46,7 @@ Here is some further reading:
  * https://css-tricks.com/bem-101/
  * http://getbem.com/
 
-## Using
+## Usage
 
 ### A simple example.
 
@@ -150,11 +153,9 @@ export default {
 The BEM block will automatically use the name of the component.
 If the component does not have a name then it will fallback to using the component's tag that
 Vue uses (which is usually what you registered the component as in the parent).
-If neither of these are available it uses `bem-block`.
-The component's name may be either pascal cased or kebab cased.
-The name will be converted into kebab casing either way for the CSS class name.
+If neither of these are available, it will attempt to use the `uuid` assigned to the component by the vue framework. If for _some_ reason, even this field is `undefined` (I'm not sure if that is actually possible) it defaults to `bem-block`.
 
-If the component's name is `SomeComponent` then the CSS block class name will be `some-component`.
+The component's name may be either pascal cased or kebab cased. The name will be converted into kebab casing either way for the CSS class name. For example, if the component's name is `SomeComponent` then the CSS block class name will be `some-component`.
 If the component's name is `another-component` then the CSS block class name will be the same.
 
 ### Block Modifiers
@@ -172,11 +173,15 @@ The below example will add the following CSS classes.
 <script>
 export default {
   name: 'MyComponent'
+  setup() {
+    const someConditional = ref(false);
+    return { someConditional };
+  }
 };
 </script>
 
 <template>
-  <div v-bem="{ boldText: true, underline: false, italics: true }">
+  <div v-bem="{ boldText: true, underline: false, italics: true, someConditional }">
     Some Text
   </div>
 </template>
@@ -299,10 +304,7 @@ export default {
 
 ### Block Mod in Child Component Context
 
-If you want to add a BEM mod onto a child component's context then you can specify the element
-to be `self`. The child component's name or tag will be used to determine the block and the mod
-will be determined like normal. The example below will generate the following CSS classes for the
-child component and add them to the child component CSS class list.
+If you have a BEM class mod defined in the styles of a reusable component, but you want to trigger that mod in the context of the consuming component (the parent), then you can specify the directive argument as `self`. The child component's name or tag will be used to determine the block and the mod will be determined like normal. The example below will generate the following CSS classes for the child component and add them to the child component CSS class list.
 
 * `child-component--bold`
 * `child-component--underline`
@@ -330,9 +332,7 @@ export default {
 
 > default: `'bem'`
 
-This changes the name the directive is registered as.
-This will change the directive in your template.
-The below example shows adding a block after changing the name to `'css'`.
+This changes the name the directive is globally registered as by the plugin. This will change the directive in your template. The below example shows adding a block after changing the name to `'css'`.
 
 ```vue
 <template>

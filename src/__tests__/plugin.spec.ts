@@ -1,21 +1,25 @@
-import { bemPlugin, bem as directive } from '../bem';
-
-const vue = { directive: jest.fn() };
-
-beforeEach(() => {
-  vue.directive.mockReset();
-});
+import { createApp, h } from 'vue';
+import {
+  default as plugin,
+  bem as directive,
+  IVueSimpleBemOptions,
+} from '../bem';
 
 it('should register directive using default name', () => {
-  bemPlugin.install(vue as any);
-
-  expect(vue.directive).toHaveBeenCalledTimes(1);
-  expect(vue.directive).toHaveBeenCalledWith('bem', directive);
+  const directiveSpy = setupTest();
+  expect(directiveSpy).toHaveBeenCalledTimes(1);
+  expect(directiveSpy).toHaveBeenCalledWith('bem', directive);
 });
 
 it('should register directive using given name', () => {
-  bemPlugin.install(vue as any, { name: 'extra' });
-
-  expect(vue.directive).toHaveBeenCalledTimes(1);
-  expect(vue.directive).toHaveBeenCalledWith('extra', directive);
+  const directiveSpy = setupTest({ name: 'extra' });
+  expect(directiveSpy).toHaveBeenCalledTimes(1);
+  expect(directiveSpy).toHaveBeenCalledWith('extra', directive);
 });
+
+function setupTest(options: Partial<IVueSimpleBemOptions> = {}) {
+  const app = createApp(() => h('div'));
+  const spy = jest.spyOn(app, 'directive');
+  app.use(plugin, options);
+  return spy;
+}
