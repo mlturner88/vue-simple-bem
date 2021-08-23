@@ -2,7 +2,7 @@
 
 > **Note**: The below documentation is for using `vue-simple-bem` with Vue 3. If you're looking for instructions on using `vue-simple-bem` with Vue 2, see [previous versions of the README](https://github.com/mlturner88/vue-simple-bem/blob/v1.2.0/README.md).
 
-A simple Vue.js directive to map BEM CSS class names.
+A simple directive to bring BEM to Vue 3. Less than 1KiB compressed. No external dependencies.
 
 ## Installation
 
