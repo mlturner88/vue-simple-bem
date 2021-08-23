@@ -1,5 +1,5 @@
 {
   "extends": "./tsconfig.base.json",
   "exclude": ["./**/*.spec.ts", "node_modules"],
-  "files": ["./global.d.ts","./index.ts"],
+  "files": ["./index.ts"],
 }
