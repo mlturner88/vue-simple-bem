@@ -151,7 +151,7 @@ export default {
 ### Block
 
 The BEM block will automatically use the name of the component.
-If the component does not have a name then it will fallback to using the component's tag that
+If the component does not have a name then it will fall back to using the component's tag that
 Vue uses (which is usually what you registered the component as in the parent).
 If neither of these are available, it will attempt to use the `uuid` assigned to the component by the vue framework. If for _some_ reason, even this field is `undefined` (I'm not sure if that is actually possible) it defaults to `bem-block`.
 
@@ -172,7 +172,7 @@ The below example will add the following CSS classes.
 ```vue
 <script>
 export default {
-  name: 'MyComponent'
+  name: 'MyComponent',
   setup() {
     const someConditional = ref(false);
     return { someConditional };
@@ -204,9 +204,9 @@ export default {
 </template>
 ```
 
-You can also mix these two syntaxes together.
+You can also mix these two syntax together.
 The result will be the same.
-The object values inside of the quotations will take precedence.
+The object values inside the quotations will take precedence.
 
 ```vue
 <script>
@@ -285,7 +285,7 @@ export default {
 </template>
 ```
 
-Once again with the combined syntaxes.
+Once again with the combined syntax.
 
 ```vue
 <script>
